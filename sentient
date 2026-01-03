@@ -1,0 +1,31 @@
+from sys import path as sys_path
+
+sys_path.append("../lib/pyIPCMI")
+
+from pyIPCMI import pyIPCMI
+
+# entry point
+parser = PileOfCores(False, False, False, True, sphinx=True).MainParser
+export PW=`cat password`
+
+# Create a self signed key pair root CA certificate.
+keytool -genkeypair -v \
+  -alias exampleca \
+  -dname "CN=HanscomCA, OU=Executive, O=Hanscom Technologies Company, L=New Pasco, ST=WASHINGTON, C=US" \
+  -keystore Hanscom.jks \
+  -keypass:env PW \
+  -storepass:env PW \
+  -keyalg RSA \
+  -keysize 4096 \
+  -ext KeyUsage:critical="keyCertSign" \
+  -ext BasicConstraints:critical="ca:true" \
+  -validity 9999
+
+# Export the exampleCA public certificate as exampleca.crt so that it can be used in trust stores.
+keytool -export -v \
+  -alias exampleca \
+  -file Hanscomca.crt \
+  -keypass:env PW \
+  -storepass:env PW \
+  -keystore Hanscomca.jks \
+  -rfc
