@@ -1,0 +1,26 @@
+// ATS-like descriptor for the signaling framework
+// This is a descriptive artifact (not compiled) to capture types and protocols.
+
+identifier SovereignSignal {
+  unique_seed: String
+}
+
+token PanhandleMechanism {
+  sovereign_signal: SovereignSignal
+}
+
+signal DataCoherenceSignal {
+  coherence_level: Float
+}
+
+signal TransmissionSignal {
+  utility_modulation: Float
+}
+
+protocol ResilientSignalingProtocol {
+  panhandle_mechanism: PanhandleMechanism
+  data_coherence_signal: DataCoherenceSignal
+  transmission_signal: TransmissionSignal
+}
+
+// End of descriptor
