@@ -12,7 +12,46 @@ if not ledger_path.exists():
 
 with ledger_path.open() as f:
     ledger = json.load(f)
+# reconcile.py
 
+def main():
+    # Example data: replace these with your actual data sources
+    expected_payouts = {
+        'Artist A': 1000,
+        'Artist B': 2000,
+        'Artist C': 1500
+    }
+
+    ledger_totals = {
+        'Artist A': 995,
+        'Artist B': 2020,
+        'Artist C': 1490
+    }
+
+    print("Reconciliation Report")
+    print("=====================\n")
+    print(f"{'Artist':<10} {'Expected':>10} {'Ledger':>10} {'Difference':>12}")
+
+    for artist in expected_payouts:
+        expected = expected_payouts.get(artist, 0)
+        ledger = ledger_totals.get(artist, 0)
+        diff = ledger - expected
+        print(f"{artist:<10} {expected:>10} {ledger:>10} {diff:>12}")
+
+    # Check for any discrepancies
+    discrepancies = False
+    for artist in expected_payouts:
+        diff = ledger_totals.get(artist, 0) - expected_payouts[artist]
+        if diff != 0:
+            discrepancies = True
+
+    if discrepancies:
+        print("\nDiscrepancies found! Review the above differences.")
+    else:
+        print("\nAll payouts match ledger totals. Reconciliation complete.")
+
+if __name__ == "__main__":
+    main()
 # Sum revenue per ISRC
 totals = {}
 for e in ledger:
